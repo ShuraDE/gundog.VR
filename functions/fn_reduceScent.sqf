@@ -11,9 +11,10 @@ if ((isNil "GRAD_GUNDOG_TRACK") || (count GRAD_GUNDOG_TRACK < 1)) exitWith {LOG_
 //didnt work, return [<null>,<null>] :/
 //GRAD_GUNDOG_TRACK = GRAD_GUNDOG_TRACK apply {_x set [2, ((_x select 2) - GRAD_GUNDOG_DECREASE_SCENT)]};
 
+
 {
   if (count _x == 3) then {
-    LOG_DEBUG(FORMAT_1("decrease scent from %1 with %2 by %3",_x select 0, _x select 2, GRAD_GUNDOG_DECREASE_SCENT));
+    LOG_DEBUG(FORMAT_3("decrease scent from %1 with %2 by %3",_x select 0, _x select 2, GRAD_GUNDOG_DECREASE_SCENT));
     _x set [2,(_x select 2) - GRAD_GUNDOG_DECREASE_SCENT];
   } else {
     LOG_ERR("ERROR reduceScent, elements missmatch");

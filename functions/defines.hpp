@@ -40,6 +40,7 @@
 #define FNC(var1) DOUBLES(TRIPLES(GRAD,GUNDOG,fnc),var1);
 
 #define HASH_CREATE                         ([] call FNC_CBA(hashCreate))
+// #TODO:9 HASH_NEW rework
 #define HASH_NEW(haarray, defValue)         ([haarray, defValue] call FNC_CBA(hashCreate)) //creates a new hash [[]]
 //#define HASH_NEW(haarray)                   ([haarray] call FNC_CBA(hashCreate)) //creates a new hash [[]]
 #define HASH_GET(haarray, keyValue)         ([haarray, keyValue] call FNC_CBA(hashGet)) //get value entry from key
