@@ -8,7 +8,7 @@ _activeSector = [_chasePos] call FNC(getSector);
 hint _activeSector;
 
 if (!HASH_HAS_KEY(GRAD_GUNDOG_HUNTING_GROUND,_activeSector)) exitWith {
-  diag_log FORMAT["no active hunting ground @ %1", _activeSector];
+  LOG_DEBUG(FORMAT_1("no active hunting ground @ %1", _activeSector));
   -1;
 };  //no one in sector
 
@@ -16,7 +16,7 @@ _activeHauntingGround = HASH_GET(GRAD_GUNDOG_HUNTING_GROUND,_activeSector);
 _nearest = 9999;
 _nearestIdx = -1;
 
-diag_log FORMAT["active hunting ground @ %1", _activeHauntingGround];
+LOG_DEBUG(FORMAT_1("active hunting ground @ %1", _activeHauntingGround));
 
 {
   _dist = _chasePos distance ((GRAD_GUNDOG_TRACK select _x) select 1);
@@ -28,6 +28,5 @@ diag_log FORMAT["active hunting ground @ %1", _activeHauntingGround];
 
 } forEach _activeHauntingGround;
 
-
-  diag_log FORMAT["nearest scent  %1 with idx %2", _nearest, _nearestIdx];
+  LOG_DEBUG(FORMAT_2("nearest scent  %1 with idx %2", _nearest, _nearestIdx));
 _nearestIdx;

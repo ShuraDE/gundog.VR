@@ -20,7 +20,7 @@ _scent = [] call FNC(intensityScent);
 _newMarker = [] call FNC(newScent);
 
 
-diag_log format["new marker %1 %2",  _scent, _newMarker];
+LOG_DEBUG(FORMAT_2("new marker %1 %2",  _scent, _newMarker));
 
 if (_scent > 0) then {
   _idx = GRAD_GUNDOG_TRACK pushBack (_newMarker);
@@ -32,10 +32,12 @@ if (_scent > 0) then {
   } else {
     _newValue = [_idx];
   };
-  diag_log FORMAT["sector %1 value %2", _sector, _newValue];
+  LOG_DEBUG(FORMAT_2("sector %1 value %2",  _sector, _newValue));
+
   HASH_SET(GRAD_GUNDOG_HUNTING_GROUND, _sector, _newValue);          //append to sector
 
-  diag_log FORMAT["append scent in %1 : %2", _sector, GRAD_GUNDOG_TRACK select _idx];
+  LOG_DEBUG(FORMAT_2("append scent in %1 : %2",  _sector, GRAD_GUNDOG_TRACK select _idx));
+
 
   if (DEBUG_ENABLE) then {
     _pos = (GRAD_GUNDOG_TRACK select _idx) select 1;
@@ -45,5 +47,5 @@ if (_scent > 0) then {
   };
 
 } else {
-  diag_log FORMAT["ignore SCENT : %1", GRAD_GUNDOG_TRACK select _idx];
+  LOG_DEBUG(FORMAT_1("ignore SCENT : %1", GRAD_GUNDOG_TRACK select _idx));
 };

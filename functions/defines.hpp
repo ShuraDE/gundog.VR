@@ -1,24 +1,35 @@
 #define GRAD_GUNDOG_INITIAL_SCENT 50
+#define GRAD_GUNDOG_DECREASE_SCENT 1
 #define GRAD_GUNDOG_MAX_RANGE 100
 
 //comment this line to deactivate
-#define DEBUG_MODE
+#define DEBUG_MODE 1
 
 
 //#define LOG_BASE(module,level,message) diag_log text LOG_FORMAT(module,level,__FILE__, __LINE__,message)
-#define LOG_BASE(module,level,message) diag_log FORMAT["%1 %2 %3 %4 %5",module,level,__FILE__, __LINE__,message]
-#define LOG_ERR(message) LOG_BASE("GRAD GUNDOG","ERROR",message)
-#define LOG_INFO(message) LOG_BASE("GRAD GUNDOG","INFO",message)
-#define LOG_WARN(message) LOG_BASE("GRAD GUNDOG","WARN",message)
+//#define LOG_BASE(module,level,message) diag_log FORMAT["%1 %2 %3 %4 %5",module,level,__FILE__, __LINE__,message]
+
+#define LOG_BASE(module,level,message) diag_log FORMAT["%1 %2 %3 %4 %5",module,level,__FILE__,__LINE__,message]
+#define LOG_ERR(message) LOG_BASE("GUNDOG","ERROR",message)
+#define LOG_INFO(message) LOG_BASE("GUNDOG","INFO",message)
+#define LOG_WARN(message) LOG_BASE("GUNDOG","WARN",message)
 
 #ifdef DEBUG_MODE
   #define DEBUG_ENABLE TRUE
-  #define LOG_DEBUG(message) LOG_BASE("GRAD GUNDOG","DEBUG",message)
+  #define LOG_DEBUG(message) LOG_BASE("GUNDOG","DEBUG",message)
 #else
   #define DEBUG_ENABLE FALSE
   #define LOG_DEBUG(message)
 #endif
 
+#define FORMAT_1(STR,ARG1) format[STR, ARG1]
+#define FORMAT_2(STR,ARG1,ARG2) format[STR, ARG1, ARG2]
+#define FORMAT_3(STR,ARG1,ARG2,ARG3) format[STR, ARG1, ARG2, ARG3]
+#define FORMAT_4(STR,ARG1,ARG2,ARG3,ARG4) format[STR, ARG1, ARG2, ARG3, ARG4]
+#define FORMAT_5(STR,ARG1,ARG2,ARG3,ARG4,ARG5) format[STR, ARG1, ARG2, ARG3, ARG4, ARG5]
+#define FORMAT_6(STR,ARG1,ARG2,ARG3,ARG4,ARG5,ARG6) format[STR, ARG1, ARG2, ARG3, ARG4, ARG5, ARG6]
+#define FORMAT_7(STR,ARG1,ARG2,ARG3,ARG4,ARG5,ARG6,ARG7) format[STR, ARG1, ARG2, ARG3, ARG4, ARG5, ARG6, ARG7]
+#define FORMAT_8(STR,ARG1,ARG2,ARG3,ARG4,ARG5,ARG6,ARG7,ARG8) format[STR, ARG1, ARG2, ARG3, ARG4, ARG5, ARG6, ARG7, ARG8]
 
 #define GAMETIME {if (isServer && hasInterface) exitWith { time } serverTime; }
 
