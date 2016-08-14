@@ -10,6 +10,6 @@ _scentPower = [] call FNC(intensityScent);
 
 _entry pushBack _time;                                        //0 zeitstempel
 _entry pushBack (getPos GRAD_GUNDOG_TARGET);                  //1 position der beute
-_entry pushBack GRAD_GUNDOG_INITIAL_SCENT * _scentPower;                  //2 initialler witterungswert * %
+_entry pushBack GRAD_GUNDOG_INITIAL_SCENT * _scentPower;      //2 initialler witterungswert * %
 
 _entry;

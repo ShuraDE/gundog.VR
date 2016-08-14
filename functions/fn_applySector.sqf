@@ -1,4 +1,5 @@
 #include "defines.hpp"
+private ["_sector"];
 params ["_idx"];
 
 _applyToSector = {
@@ -18,8 +19,19 @@ _applyToSector = {
   HASH_SET(_hash, _sector, _newValue);          //append to sector
 
   LOG_DEBUG(FORMAT_2("append scent in %1 : %2",  _sector, GRAD_GUNDOG_TRACK select _idx));
+
+  _sector;
 };
 
-if (GRAD_GUNDOG_SECTOR_1) then { [_idx, 1, GRAD_GUNDOG_HUNTING_GROUND_1] call _applyToSector; };
-if (GRAD_GUNDOG_SECTOR_2) then { [_idx, 2, GRAD_GUNDOG_HUNTING_GROUND_2] call _applyToSector; };
-if (GRAD_GUNDOG_SECTOR_3) then { [_idx, 3, GRAD_GUNDOG_HUNTING_GROUND_3] call _applyToSector; };
+if (GRAD_GUNDOG_SECTOR_1) then {
+  _sector = [_idx, 1, GRAD_GUNDOG_HUNTING_GROUND_1] call _applyToSector;
+  LOG_DEBUG(FORMAT_2("Append %1 to sector(1) %2", _idx, _sector));
+};
+if (GRAD_GUNDOG_SECTOR_2) then {
+  _sector = [_idx, 2, GRAD_GUNDOG_HUNTING_GROUND_2] call _applyToSector;
+  LOG_DEBUG(FORMAT_2("Append %1 to sector(2) %2", _idx, _sector));
+};
+if (GRAD_GUNDOG_SECTOR_3) then {
+  _sector = [_idx, 3, GRAD_GUNDOG_HUNTING_GROUND_3] call _applyToSector;
+  LOG_DEBUG(FORMAT_2("Append %1 to sector(3) %2", _idx, _sector));
+};

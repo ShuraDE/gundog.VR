@@ -43,6 +43,9 @@ if (!GRAD_GUNDOG_HAVE_SCENT) then {
 
   if (_activeSector isEqualTo objNull ) exitWith {
     LOG_DEBUG(FORMAT_1("failed activeSector %1", _activeSector));
+
+    // #TODO:0 look in neighbor sector if max distance is possible
+
     false;
   };
 
@@ -59,7 +62,8 @@ if (!GRAD_GUNDOG_HAVE_SCENT) then {
 
   } forEach _activeSector; //get all index from select sector
 
-  LOG_DEBUG(FORMAT_2("Spur gefunden, distance %1 @ %2",_nearest, _nearestIdx));
+  LOG_DEBUG(FORMAT_2("found trace distance %1 @ %2",_nearest, _nearestIdx));
 } else {
+  // #TODO:1 handler
   LOG_DEBUG("Spur bereits gefunden und soll Fährte folgen");
 };

@@ -20,13 +20,14 @@ _newMarker = [] call FNC(newScent);
 
 
 LOG_DEBUG(FORMAT_2("new marker %1 %2",  _scent, _newMarker));
+LOG_DEBUG(FORMAT_1("map grid %1", mapGridPosition (_newMarker select 1)));
 
 if (_scent > 0) then {
   //add scent to track
   _idx = GRAD_GUNDOG_TRACK pushBack (_newMarker);
 
   //append reference to sector
-  [_idx] call FNC(newSector);
+  [_idx] call FNC(applySector);
 
   //debug
   if (DEBUG_ENABLE) then {
