@@ -1,25 +1,27 @@
 #include "defines.hpp"
-private ["_checkSector","_activeSector","_shortestIdx","_nearest","_dist"];
-params ["_searchPos","_maxRange"];
+private ["_searchFromPos","_checkSector","_activeSector","_shortestIdx","_nearest","_dist"];
+params ["_maxRange"];
 
 _checkSector = {
   params ["_precision", "_hash"];
 
-  _sector = [_searchPos, _precision] call FNC(getSector);
+  _sector = [_searchFromPos, _precision] call FNC(getSector);
   //check entry exists
   if (HASH_HAS_KEY(_hash,_sector)) then {
-    _activeSector = _hash;
+    _activeSector = HASH_GET(_hash,_sector);
   } else {
     false;
   };
 
 };
 
+_searchFromPos = getPos GRAD_GUNDOG_CHASER;
 _activeSector = objNull;
-_shortestRange = 999999;
+_nearest = 999999;
+_nearestIdx = -1;
 
 //set maxRange to default if not set
-if (isNull "_maxRange") then {_maxRange = GRAD_GUNDOG_MAX_RANGE; };
+if (isNil "_maxRange") then {_maxRange = GRAD_GUNDOG_MAX_RANGE };
 
 //aktuell keine aktive spur
 if (!GRAD_GUNDOG_HAVE_SCENT) then {
@@ -30,37 +32,34 @@ if (!GRAD_GUNDOG_HAVE_SCENT) then {
     [1,GRAD_GUNDOG_HUNTING_GROUND_1] call _checkSector;
     //if (([1,GRAD_GUNDOG_HUNTING_GROUND_1] call _checkSector)==false) exitWith { false; };
   };
-  if (GRAD_GUNDOG_SECTOR_2) then {
+  if (GRAD_GUNDOG_SECTOR_2 && !isNil "GRAD_GUNDOG_HUNTING_GROUND_2") then {
     [2,GRAD_GUNDOG_HUNTING_GROUND_2] call _checkSector;
     //if (([2,GRAD_GUNDOG_HUNTING_GROUND_2] call _checkSector)==false) exitWith { false; };
   };
-  if (GRAD_GUNDOG_SECTOR_3) then {
+  if (GRAD_GUNDOG_SECTOR_3 && !isNil "GRAD_GUNDOG_HUNTING_GROUND_3") then {
     [3,GRAD_GUNDOG_HUNTING_GROUND_3] call _checkSector;
     //if (([3,GRAD_GUNDOG_HUNTING_GROUND_3] call _checkSector)==false) exitWith { false; };
   };
 
-  if (isNull _activeSector) exitWith { false; };
+  if (_activeSector isEqualTo objNull ) exitWith {
+    LOG_DEBUG(FORMAT_1("failed activeSector %1", _activeSector));
+    false;
+  };
 
   {
     LOG_DEBUG(FORMAT_1("check %1",_x));
 
-    _dist = _chasePos distance ((GRAD_GUNDOG_TRACK select _x) select 1);
+    _dist = _searchFromPos distance ((GRAD_GUNDOG_TRACK select _x) select 1);
+    LOG_DEBUG(FORMAT_1("dist %1",_dist));
 
     if ((_dist < _maxRange) && (_dist < _nearest)) then {
       _nearest = _dist;
       _nearestIdx = _x;
     };
 
-  } forEach _activeSector;
+  } forEach _activeSector; //get all index from select sector
 
-
-  if (!isNil "_activeSector") exitWith {
-    LOG_DEBUG("Missed exit ??  Search Scent");
-  };
-
-  LOG_DEBUG(FORMAT_1("Spur gefunden, distance %1",_shortestRange));
-  LOG_DEBUG(str _activeSector);
-
+  LOG_DEBUG(FORMAT_2("Spur gefunden, distance %1 @ %2",_nearest, _nearestIdx));
 } else {
   LOG_DEBUG("Spur bereits gefunden und soll Fährte folgen");
 };

@@ -16,10 +16,6 @@
         file = "functions\fn_newSector.sqf";
         description = "gundog";
       };
-      class chase {
-        file = "functions\fn_chase.sqf";
-        description = "gundog";
-      };
       class intensityScent {
         file = "functions\fn_intensityScent.sqf";
         description = "gundog";
