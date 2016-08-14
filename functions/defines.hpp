@@ -2,6 +2,11 @@
 #define GRAD_GUNDOG_DECREASE_SCENT 1
 #define GRAD_GUNDOG_MAX_RANGE 100
 
+//use x digit sector
+#define GRAD_GUNDOG_SECTOR_1 TRUE
+#define GRAD_GUNDOG_SECTOR_2 TRUE
+#define GRAD_GUNDOG_SECTOR_3 TRUE
+
 //comment this line to deactivate
 #define DEBUG_MODE 1
 
@@ -9,7 +14,23 @@
 //#define LOG_BASE(module,level,message) diag_log text LOG_FORMAT(module,level,__FILE__, __LINE__,message)
 //#define LOG_BASE(module,level,message) diag_log FORMAT["%1 %2 %3 %4 %5",module,level,__FILE__, __LINE__,message]
 
-#define LOG_BASE(module,level,message) diag_log FORMAT["%1 %2 %3 %4 %5",module,level,__FILE__,__LINE__,message]
+/*
+//funkt net  :-/
+//MISSION_ROOT in descruption ext
+//#define GETVAR_SYS(var1) parsingNamespace getVariable [QUOTE(var1)]
+//test hardcoded
+#define GETVAR_SYS(x) "C:\Users\Shura\Documents\Arma 3\missions\gundog.VR"
+#define MISSIONDIR GETVAR_SYS(MISSION_ROOT)
+#define DIR_AR_MISSION {MISSIONDIR splitString "\"}
+#define DIR_AR_FILE {__FILE__ splitString "\"}
+#define DIR_AR_DELTA {DIR_AR_FILE - DIR_AR_MISSION}
+#define SCRIPT_FILE {DIR_AR_DELTA joinString "\"}
+*/
+
+//("C:\Users\Shura\Documents\Arma 3\missions\gundog.VR\functions\fn_reduceScent.sqf" splitString "\")  - (parsingNamespace getVariable "MISSION_ROOT" splitString "\") joinString "\"
+//#define  ...  get file by __FILE__ - missions root
+//#define LOG_BASE(module,level,message) diag_log FORMAT["%1 %2 %3 %4 %5",module,level,__FILE__,__LINE__,message]
+#define LOG_BASE(module,level,message) diag_log FORMAT["%1 %2 %3 %4 %5",module,level,"...",__LINE__,message]
 #define LOG_ERR(message) LOG_BASE("GUNDOG","ERROR",message)
 #define LOG_INFO(message) LOG_BASE("GUNDOG","INFO",message)
 #define LOG_WARN(message) LOG_BASE("GUNDOG","WARN",message)
@@ -36,6 +57,7 @@
 #define DOUBLES(var1,var2) ##var1##_##var2
 #define TRIPLES(var1,var2,var3) ##var1##_##var2##_##var3
 
+#define FNC_BIS(var1) TRIPLES(BIS,fnc,var1) //CBA Function
 #define FNC_CBA(var1) TRIPLES(CBA,fnc,var1) //CBA Function
 #define FNC(var1) DOUBLES(TRIPLES(GRAD,GUNDOG,fnc),var1);
 

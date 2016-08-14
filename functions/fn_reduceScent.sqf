@@ -4,7 +4,6 @@
 // #CHECK:0 geht das, reduce scent by 1 ????
 
 
-
 if ((isNil "GRAD_GUNDOG_TRACK") || (count GRAD_GUNDOG_TRACK < 1)) exitWith {LOG_ERR("downtick scent abort");};
 
 

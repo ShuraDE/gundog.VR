@@ -12,6 +12,10 @@
         file = "functions\fn_getSector.sqf";
         description = "gundog";
       };
+      class newSector {
+        file = "functions\fn_newSector.sqf";
+        description = "gundog";
+      };
       class chase {
         file = "functions\fn_chase.sqf";
         description = "gundog";
