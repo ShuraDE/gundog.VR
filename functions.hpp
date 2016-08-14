@@ -28,6 +28,10 @@
         file = "functions\fn_newScent.sqf";
         description = "gundog";
       };
+      class findScent {
+        file = "functions\fn_findScent.sqf";
+        description = "gundog";
+      };
       class fadedScent {
         file = "functions\fn_fadedScent.sqf";
         description = "gundog";

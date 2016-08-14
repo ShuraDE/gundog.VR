@@ -7,13 +7,12 @@ variablen
 
 GRAD_GUNDOG_TARGET = Beute
 GRAD_GUNDOG_TRACK = array aller positionen vom target
-GRAD_GUNDOG_HUNTING_GROUND = areale / sektoren mit markern, syntax [x ersten 3 stellen, y ersten 3 stellen, 0|1 rechter/linker bereich, 0|1 unterer/oberer bereich
-        (z.B.  123 033 1 0 steht für den breich 1235/0330 bis 1239/0334)
+GRAD_GUNDOG_HUNTING_GROUND_[precision] = areale / sektoren mit markern, syntax [x ersten 3 stellen, y ersten 3 stellen, 0|1 rechter/linker bereich, 0|1 unterer/oberer bereich
+        (z.B. precision 2 = 123 033 1 0 steht für den breich 1235/0330 bis 1239/0334)
 */
 
 //check are really ready
 if (isNil "GRAD_GUNDOG_TRACK") then {GRAD_GUNDOG_TRACK = []; };
-//if (!HASH_IS_HASH(GRAD_GUNDOG_HUNTING_GROUND)) then { GRAD_GUNDOG_HUNTING_GROUND = HASH_CREATE; };
 
 // #TODO:0 Alle X sekunden neue spur anfügen  CBA_fnc_addPerFrameHandler mit delay x
 _scent = [] call FNC(intensityScent);

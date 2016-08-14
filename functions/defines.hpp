@@ -60,6 +60,7 @@
 #define FNC_BIS(var1) TRIPLES(BIS,fnc,var1) //CBA Function
 #define FNC_CBA(var1) TRIPLES(CBA,fnc,var1) //CBA Function
 #define FNC(var1) DOUBLES(TRIPLES(GRAD,GUNDOG,fnc),var1);
+#define IVAR(var1) TRIPLES(GRAD,GUNDOG,var1);
 
 #define HASH_CREATE                         ([] call FNC_CBA(hashCreate))
 // #TODO:9 HASH_NEW rework

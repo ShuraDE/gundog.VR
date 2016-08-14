@@ -7,7 +7,7 @@ _chasePos = getPos _chaser;
 _activeSector = [_chasePos] call FNC(getSector);
 hint _activeSector;
 
-if (!HASH_HAS_KEY(GRAD_GUNDOG_HUNTING_GROUND,_activeSector)) exitWith {
+if (!HASH_HAS_KEY(GRAD_GUNDOG_HUNTING_GROUND_2,_activeSector)) exitWith {
   LOG_DEBUG(FORMAT_1("no active hunting ground @ %1", _activeSector));
   -1;
 };  //no one in sector
