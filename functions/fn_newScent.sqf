@@ -15,6 +15,7 @@ if (_scentPower<=0) exitWith { objNull; };
 //return new scent
 _entry pushBack _time;                                //0 zeitstempel
 _entry pushBack (getPos _target);                     //1 position der beute
-_entry pushBack IVAR(INITIAL_SCENT) * _scentPower;    //2 initialler witterungswert * %
+//_entry pushBack IVAR(INITIAL_SCENT) * _scentPower;    //2 initialler witterungswert * %
+_entry pushBack GRAD_GUNDOG_INITIAL_SCENT * _scentPower;    //2 initialler witterungswert * %
 
 _entry;
