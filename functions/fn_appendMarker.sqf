@@ -14,7 +14,7 @@ if (_newMarker isEqualTo objNull) exitWith {
   LOG_DEBUG(FORMAT_2("no valid marker, scent level %1 @ pos %2", [_houndedTarget] call IFNC(getIntensityScent), getPos _houndedTarget));
 };
 
-LOG_DEBUG(FORMAT_2("new marker %1 @ grid %2",_newMarker, mapGridPosition (_newMarker select 1)));
+LOG_DEBUG(FORMAT_2("new marker %1 @ grid %2", _newMarker, mapGridPosition (_newMarker select 1)));
 
 
 //append new marker to route
