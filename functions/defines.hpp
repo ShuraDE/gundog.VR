@@ -4,7 +4,7 @@
 
 #define GRAD_GUNDOG_INITIAL_SCENT 50
 #define GRAD_GUNDOG_DECREASE_SCENT 1
-#define GRAD_GUNDOG_INTERVAL_SCENT 1
+#define GRAD_GUNDOG_INTERVAL_SCENT 5
 #define GRAD_GUNDOG_MAX_RANGE 100
 
 #define GRAD_GUNDOG_INTENSITY_CHANGE_WATER = 0.9
@@ -40,13 +40,13 @@
 //#define  ...  get file by __FILE__ - missions root
 //#define LOG_BASE(module,level,message) diag_log FORMAT["%1 %2 %3 %4 %5",module,level,__FILE__,__LINE__,message]
 #define LOG_BASE(module,level,message) diag_log FORMAT["%1 %2 %3 %4 %5",module,level,"...",__LINE__,message]
-#define LOG_ERR(message) LOG_BASE(MODULE,"ERROR",message)
-#define LOG_INFO(message) LOG_BASE(MODULE,"INFO",message)
-#define LOG_WARN(message) LOG_BASE(MODULE,"WARN",message)
+#define LOG_ERR(message) LOG_BASE("GUNDOG","ERROR",message)
+#define LOG_INFO(message) LOG_BASE("GUNDOG","INFO",message)
+#define LOG_WARN(message) LOG_BASE("GUNDOG","WARN",message)
 
 #ifdef DEBUG_MODE
   #define DEBUG_ENABLE TRUE
-  #define LOG_DEBUG(message) LOG_BASE(MODULE,"DEBUG",message)
+  #define LOG_DEBUG(message) LOG_BASE("GUNDOG","DEBUG",message)
 #else
   #define DEBUG_ENABLE FALSE
   #define LOG_DEBUG(message)

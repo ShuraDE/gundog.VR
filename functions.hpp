@@ -31,7 +31,7 @@
       class followScent {
         file = "functions\fn_followScent.sqf";
         description = "gundog";
-      };      
+      };
       class fadeScent {
         file = "functions\fn_fadeScent.sqf";
         description = "gundog";
