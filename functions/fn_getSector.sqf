@@ -19,7 +19,7 @@ _x = [_pos select 0] call _getRasterCoord;
 _y = [_pos select 1] call _getRasterCoord;
 
 
-LOG_DEBUG(FORMAT_3("request sector data for pos %1, return sector %2 and %3",  _pos, _x, _y));
+LOG_TRACE(FORMAT_3("request sector data for pos %1, return sector %2 and %3",  _pos, _x, _y));
 
 //diag_log format["RASTER   %1%2_%3%4", _x select 0, _y select 1, _x select 1, _y select 1];
 

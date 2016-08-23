@@ -1,4 +1,9 @@
 #include "defines.hpp"
+params ["_fncParams"]; //pfh params
+_hunter = _fncParams select 0;
+
+LOG_DEBUG(FORMAT_1("exec find for %1", _hunter));
+/*
 private ["_searchFromPos","_checkSector","_activeSector","_shortestIdx","_nearest","_dist"];
 params ["_maxRange"];
 
@@ -67,3 +72,4 @@ if (!GRAD_GUNDOG_HAVE_SCENT) then {
   // #TODO:1 handler
   LOG_DEBUG("Spur bereits gefunden und soll Fährte folgen");
 };
+*/

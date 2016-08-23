@@ -1,6 +1,6 @@
 #include "defines.hpp"
 
-private ["_pfhMarker", "_newTargetTraces", "_newTargetSectors", "_newTarget"];
+private ["_pfhMarker", "_newTargetTraces", "_newTargetSectors", "_newTargetData", "_newHunterData"];
 params ["_houndedTarget","_hunter"];
 
 
@@ -11,27 +11,34 @@ data          array       : [] traces , hashArray sectors, perFrameHandler id
 traces        array       : time, pos, scentPower
 
 IVAR(HUNTERS)
-huntersArray  hashArray   : key = object (hunter)    value = [] targets
+huntersArray  hashArray   : key = object (hunter)    value = [] data
+data          array       : [] targets , perFrameHandler id
 targets       array       : object (hounded)
 */
 
 
-LOG_DEBUG(FORMAT_1("new init active target is %1", str(_houndedTarget)));
-LOG_DEBUG(FORMAT_1("new init active hunter is %1", str(_hunter)));
+LOG_DEBUG(FORMAT_2("new init target is %1, hunter is %2", _houndedTarget, _hunter));
+
 
 /*
 
 HUNTER part
 
 */
-//append target to hunters target array
-if (HASH_HAS_KEY(IVAR(HUNTERS), _hunter)) then {
-  _newTarget = HASH_GET(IVAR(HUNTERS), _hunter);
-  _newTarget pushBack _houndedTarget;
-} else {
-  _newTarget = [_houndedTarget];
+if (!(_hunter isEqualTo objNull)) then {
+  //append target to hunters target array
+  if (HASH_HAS_KEY(IVAR(HUNTERS), _hunter)) then {
+    _newHunterData = (HASH_GET(IVAR(HUNTERS), _hunter)) select 0;
+    _newHunterData pushBack _houndedTarget;
+    HASH_SET(IVAR(HUNTERS), _hunter, _newHunterData);
+    LOG_DEBUG(FORMAT_1("hunter hash (append) is %1", HASH_GET(IVAR(HUNTERS), _hunter)));
+  } else {
+    _pfhMarker = [IFNC(findScent), GRAD_GUNDOG_INITIAL_SEARCH, [_hunter]] call FNC_CBA(addPerFrameHandler);
+    _newHunterData = [[_houndedTarget], _pfhMarker];
+    HASH_SET(IVAR(HUNTERS), _hunter, _newHunterData);
+    LOG_DEBUG(FORMAT_1("hunter hash (new) is %1", HASH_GET(IVAR(HUNTERS), _hunter)));
+  };
 };
-HASH_SET(IVAR(HUNTERS), _newTarget);
 
 /*
 
@@ -45,10 +52,9 @@ if (!(HASH_HAS_KEY(IVAR(HOUNDED), _houndedTarget))) then {
   _newTargetSectors = HASH_CREATE;
 
   //each x second append new scent to trace route
-  //_pfhMarker = [IFNC(appendMarker), IVAR(INTERVAL_SCENT), [_houndedTarget, _traces, _sectors]] call FNC_CBA(addPerFrameHandler);
   _pfhMarker = [IFNC(appendMarker), GRAD_GUNDOG_INTERVAL_SCENT, [_houndedTarget, _newTargetTraces, _newTargetSectors]] call FNC_CBA(addPerFrameHandler);
 
-  _newTarget = [_newTargetTraces, _newTargetSectors, _pfhMarker];
+  _newTargetData = [_newTargetTraces, _newTargetSectors, _pfhMarker];
 
-  HASH_SET(IVAR(HOUNDED), _houndedTarget, _newTarget);
+  HASH_SET(IVAR(HOUNDED), _houndedTarget, _newTargetData);
 };

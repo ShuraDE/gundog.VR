@@ -3,6 +3,7 @@
 #define IPREFIX DOUBLES(LIB,MODULE)
 
 #define GRAD_GUNDOG_INITIAL_SCENT 50
+#define GRAD_GUNDOG_INITIAL_SEARCH 50
 #define GRAD_GUNDOG_DECREASE_SCENT 1
 #define GRAD_GUNDOG_INTERVAL_SCENT 5
 #define GRAD_GUNDOG_MAX_RANGE 100
@@ -18,6 +19,7 @@
 
 //comment this line to deactivate
 #define DEBUG_MODE 1
+#define TRACE_MODE 1
 
 
 //#define LOG_BASE(module,level,message) diag_log text LOG_FORMAT(module,level,__FILE__, __LINE__,message)
@@ -50,6 +52,13 @@
 #else
   #define DEBUG_ENABLE FALSE
   #define LOG_DEBUG(message)
+#endif
+#ifdef TRACE_MODE
+  #define TRACE_ENABLE TRUE
+  #define LOG_TRACE(message) LOG_BASE("GUNDOG","TRACE",message)
+#else
+  #define TRACE_ENABLE FALSE
+  #define LOG_TRACE(message)
 #endif
 
 #define FORMAT_1(STR,ARG1) format[STR, ARG1]
