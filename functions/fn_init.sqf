@@ -1,6 +1,6 @@
 #include "defines.hpp"
 
-private ["_pfhMarker", "_newTargetTraces", "_newTargetSectors", "_newTargetData", "_newHunterData"];
+private ["_pfhMarker", "_newTargetTraces", "_newTargetSectors", "_newTargetData", "_hunterData"];
 params ["_houndedTarget","_hunter"];
 
 
@@ -28,14 +28,28 @@ HUNTER part
 if (!(_hunter isEqualTo objNull)) then {
   //append target to hunters target array
   if (HASH_HAS_KEY(IVAR(HUNTERS), _hunter)) then {
-    _newHunterData = (HASH_GET(IVAR(HUNTERS), _hunter)) select 0;
-    _newHunterData pushBack _houndedTarget;
-    HASH_SET(IVAR(HUNTERS), _hunter, _newHunterData);
+    //get active data and clear
+    _hunterData = HASH_GET(IVAR(HUNTERS), _hunter);
+
+    //remove old pfh, add new target to targets
+    LOG_DEBUG(FORMAT_1("remove old pfh handler ID %1", _hunterData select 1));
+    [(_hunterData select 1)] call CBA_fnc_removePerFrameHandler;
+    _hunterData = _hunterData select 0;
+    _hunterData pushBackUnique _houndedTarget;
+
+    //create new pfh with new targetsarray (reduce query)
+    _pfhMarker = [IFNC(findScent), GRAD_GUNDOG_INITIAL_SEARCH, [_hunter, _hunterData]] call FNC_CBA(addPerFrameHandler);
+    LOG_DEBUG(FORMAT_2("append new pfh handler (search) with ID %1 for", _pfhMarker, _hunter));
+    //be sure left all data correct in array
+    _hunterData = [_hunterData, _pfhMarker];
+
+    HASH_SET(IVAR(HUNTERS), _hunter, _hunterData);
     LOG_DEBUG(FORMAT_1("hunter hash (append) is %1", HASH_GET(IVAR(HUNTERS), _hunter)));
   } else {
-    _pfhMarker = [IFNC(findScent), GRAD_GUNDOG_INITIAL_SEARCH, [_hunter]] call FNC_CBA(addPerFrameHandler);
-    _newHunterData = [[_houndedTarget], _pfhMarker];
-    HASH_SET(IVAR(HUNTERS), _hunter, _newHunterData);
+    _pfhMarker = [IFNC(findScent), GRAD_GUNDOG_INITIAL_SEARCH, [_hunter, [_houndedTarget]]] call FNC_CBA(addPerFrameHandler);
+    LOG_DEBUG(FORMAT_2("append new pfh handler (search) with ID %1 for", _pfhMarker, _hunter));
+    _hunterData = [[_houndedTarget], _pfhMarker];
+    HASH_SET(IVAR(HUNTERS), _hunter, _hunterData);
     LOG_DEBUG(FORMAT_1("hunter hash (new) is %1", HASH_GET(IVAR(HUNTERS), _hunter)));
   };
 };

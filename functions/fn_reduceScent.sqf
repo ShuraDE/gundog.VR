@@ -1,8 +1,10 @@
 #include "defines.hpp"
 
-// #TODO:1 Alle x sekunden scent wert (witterung) senken
+// #TODO:1 REFACTOR Alle x sekunden scent wert (witterung) senken
 // #CHECK:0 geht das, reduce scent by 1 ????
 
+
+/*
 
 if ((isNil "GRAD_GUNDOG_TRACK") || (count GRAD_GUNDOG_TRACK < 1)) exitWith {LOG_ERR("downtick scent abort");};
 
@@ -26,3 +28,4 @@ if (DEBUG_ENABLE) then {
       LOG_DEBUG(FORMAT_4("idx %1; Time %2, POS %3, Scent %4",  _forEachIndex, _x select 0, _x select 1, _x select 2));
   } forEach GRAD_GUNDOG_TRACK;
 };
+*/
