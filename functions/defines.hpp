@@ -1,6 +1,15 @@
+#define LIB GRAD
+#define MODULE GUNDOG
+#define IPREFIX DOUBLES(LIB,MODULE)
+
 #define GRAD_GUNDOG_INITIAL_SCENT 50
 #define GRAD_GUNDOG_DECREASE_SCENT 1
+#define GRAD_GUNDOG_INTERVAL_SCENT 1
 #define GRAD_GUNDOG_MAX_RANGE 100
+
+#define GRAD_GUNDOG_INTENSITY_CHANGE_WATER = 0.9
+#define GRAD_GUNDOG_INTENSITY_CHANGE_VEHICLE = 0.8
+
 
 //use x digit sector
 #define GRAD_GUNDOG_SECTOR_1 TRUE
@@ -31,13 +40,13 @@
 //#define  ...  get file by __FILE__ - missions root
 //#define LOG_BASE(module,level,message) diag_log FORMAT["%1 %2 %3 %4 %5",module,level,__FILE__,__LINE__,message]
 #define LOG_BASE(module,level,message) diag_log FORMAT["%1 %2 %3 %4 %5",module,level,"...",__LINE__,message]
-#define LOG_ERR(message) LOG_BASE("GUNDOG","ERROR",message)
-#define LOG_INFO(message) LOG_BASE("GUNDOG","INFO",message)
-#define LOG_WARN(message) LOG_BASE("GUNDOG","WARN",message)
+#define LOG_ERR(message) LOG_BASE(MODULE,"ERROR",message)
+#define LOG_INFO(message) LOG_BASE(MODULE,"INFO",message)
+#define LOG_WARN(message) LOG_BASE(MODULE,"WARN",message)
 
 #ifdef DEBUG_MODE
   #define DEBUG_ENABLE TRUE
-  #define LOG_DEBUG(message) LOG_BASE("GUNDOG","DEBUG",message)
+  #define LOG_DEBUG(message) LOG_BASE(MODULE,"DEBUG",message)
 #else
   #define DEBUG_ENABLE FALSE
   #define LOG_DEBUG(message)
@@ -57,10 +66,10 @@
 #define DOUBLES(var1,var2) ##var1##_##var2
 #define TRIPLES(var1,var2,var3) ##var1##_##var2##_##var3
 
-#define FNC_BIS(var1) TRIPLES(BIS,fnc,var1) //CBA Function
+#define FNC_BIS(var1) TRIPLES(BIS,fnc,var1) //BIS Function
 #define FNC_CBA(var1) TRIPLES(CBA,fnc,var1) //CBA Function
-#define FNC(var1) DOUBLES(TRIPLES(GRAD,GUNDOG,fnc),var1);
-#define IVAR(var1) TRIPLES(GRAD,GUNDOG,var1);
+#define IFNC(var1) TRIPLES(IPREFIX,fnc,var1)
+#define IVAR(var1) DOUBLES(IPREFIX,var1)
 
 #define HASH_CREATE                         ([] call FNC_CBA(hashCreate))
 // #TODO:9 HASH_NEW rework

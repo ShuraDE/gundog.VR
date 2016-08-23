@@ -5,7 +5,7 @@ params ["_maxRange"];
 _checkSector = {
   params ["_precision", "_hash"];
 
-  _sector = [_searchFromPos, _precision] call FNC(getSector);
+  _sector = [_searchFromPos, _precision] call IFNC(getSector);
   //check entry exists
   if (HASH_HAS_KEY(_hash,_sector)) then {
     _activeSector = HASH_GET(_hash,_sector);

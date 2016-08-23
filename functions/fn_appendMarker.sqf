@@ -1,43 +1,32 @@
 #include "defines.hpp"
 
-private ["_idx", "_previous", "_sector","_scent","_newMarker","_debug","_pos","_oldValue","_newValue"];
-
-/*
-variablen
-
-GRAD_GUNDOG_TARGET = Beute
-GRAD_GUNDOG_TRACK = array aller positionen vom target
-GRAD_GUNDOG_HUNTING_GROUND_[precision] = areale / sektoren mit markern, syntax [x ersten 3 stellen, y ersten 3 stellen, 0|1 rechter/linker bereich, 0|1 unterer/oberer bereich
-        (z.B. precision 2 = 123 033 1 0 steht für den breich 1235/0330 bis 1239/0334)
-*/
-
-//check are really ready
-if (isNil "GRAD_GUNDOG_TRACK") then {GRAD_GUNDOG_TRACK = []; };
-
-// #TODO:0 Alle X sekunden neue spur anfügen  CBA_fnc_addPerFrameHandler mit delay x
-_scent = [] call FNC(intensityScent);
-_newMarker = [] call FNC(newScent);
+private ["_idx", "_newMarker","_debug","_pos"];
+params ["_houndedTarget", "_traces", "_sectors"];
 
 
-LOG_DEBUG(FORMAT_2("new marker %1 %2",  _scent, _newMarker));
-LOG_DEBUG(FORMAT_1("map grid %1", mapGridPosition (_newMarker select 1)));
+//generate new marker
+_newMarker = [_houndedTarget] call IFNC(newScent);
 
-if (_scent > 0) then {
-  //add scent to track
-  _idx = GRAD_GUNDOG_TRACK pushBack (_newMarker);
+//if there is no marker, exit
+if (_newMarker isEqualTo objNull) exitWith {
+  LOG_DEBUG(FORMAT_1("no valid marker, scent level %1 @ pos %2", [_houndedTarget] call IFNC(getIntensityScent), getPos _houndedTarget));
+}; 
 
-  //append reference to sector
-  [_idx] call FNC(applySector);
+LOG_DEBUG(FORMAT_2("new marker %1 @ grid %2",_newMarker, mapGridPosition (_newMarker select 1)));
 
-  //debug
-  if (DEBUG_ENABLE) then {
-    _pos = (GRAD_GUNDOG_TRACK select _idx) select 1;
-    _debug = "Sign_Pointer_F" createVehicleLocal _pos;
-    _debug setDir (getDir GRAD_GUNDOG_TARGET);
-    _debug setVariable ["IDX", _idx];
-    _debug setVariable ["OBJ", (GRAD_GUNDOG_TRACK select _idx)];
-  };
 
-} else {
-  LOG_DEBUG(FORMAT_1("ignore SCENT : %1", GRAD_GUNDOG_TRACK select _idx));
+//append new marker to route 
+_idx = _traces pushBack (_newMarker);
+//append reference to sector
+[_idx, _newMarker select 1, _sectors] call IFNC(applySector);
+
+
+
+//debug
+if (DEBUG_ENABLE) then {
+  _pos = (_traces select _idx) select 1;
+  _debug = "Sign_Pointer_F" createVehicleLocal _pos;
+  _debug setDir (getDir _houndedTarget);
+  _debug setVariable ["IDX", _idx];
+  _debug setVariable ["OBJ", (_traces select _idx)];
 };

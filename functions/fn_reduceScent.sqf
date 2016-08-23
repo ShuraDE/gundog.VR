@@ -22,5 +22,7 @@ if ((isNil "GRAD_GUNDOG_TRACK") || (count GRAD_GUNDOG_TRACK < 1)) exitWith {LOG_
 
 
 if (DEBUG_ENABLE) then {
-
+  {
+      LOG_DEBUG(FORMAT_4("idx %1; Time %2, POS %3, Scent %4",  _forEachIndex, _x select 0, _x select 1, _x select 2));
+  } forEach GRAD_GUNDOG_TRACK;
 };

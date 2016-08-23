@@ -16,8 +16,8 @@
         file = "functions\fn_applySector.sqf";
         description = "gundog";
       };
-      class intensityScent {
-        file = "functions\fn_intensityScent.sqf";
+      class getIntensityScent {
+        file = "functions\fn_getIntensityScent.sqf";
         description = "gundog";
       };
       class newScent {
@@ -28,12 +28,12 @@
         file = "functions\fn_findScent.sqf";
         description = "gundog";
       };
-      class fadedScent {
-        file = "functions\fn_fadedScent.sqf";
+      class followScent {
+        file = "functions\fn_followScent.sqf";
         description = "gundog";
-      };
-      class reduceScent {
-        file = "functions\fn_reduceScent.sqf";
+      };      
+      class fadeScent {
+        file = "functions\fn_fadeScent.sqf";
         description = "gundog";
       };
     };
