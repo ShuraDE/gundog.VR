@@ -86,8 +86,9 @@ if (!(_hunter isEqualTo objNull)) then {
     
     //add new target to targets
     _hunterData pushBackUnique _houndedTarget;
-  } else {
+  } else {  //new hunter
     _hunterData = [_houndedTarget];
+    QIVAR(HUNTER_STATE) addPublicVariableEventHandler [_hunter, {[_hunter] call IFNC(hunterStateChange)}];
   };
   
   // create pfh  & set data

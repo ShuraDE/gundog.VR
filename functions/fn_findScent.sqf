@@ -75,11 +75,12 @@ _activeSector = _baseSector;
 if (count _nearestScent == 0) exitWith { }; //nothing nearby
 
 //valid scent found
-// #TODO:0 add signal "scent found"
-
+_hunter setVariable [QIVAR(HUNTER_STATE), GRAD_GUNDOG_ENUM_HUNTER_STATE_FOLLOW];
 //move to, change pfh from find to follow
 _hunter moveTo (_nearestScent select 5);
-_hunter setVariable [QIVAR(FOLLOWING_NODE),_nearestScent select 5];
+_hunter setVariable [QIVAR(FOLLOWING_POS),_nearestScent select 5];
+_hunter setVariable [QIVAR(FOLLOWING_TARGET),_nearestScent select 2];
+_hunter setVariable [QIVAR(FOLLOWING_IDX),_nearestScent select 1];
 
 //replace pfh for follow trace
 [_hunter getVariable [QIVAR(PFH),-1]] call FNC_CBA(removePerFrameHandler);
