@@ -1,10 +1,25 @@
 #include "defines.hpp"
-private ["_sector", "_entities","_recognizedTargets","_nearestScent","_activeCheck", "_activeTarget", "_activeSector", "_baseSector", "_impact", "_hunterData"];
+private ["_sector", "_entities","_recognizedTargets","_nearestScent","_activeCheck", "_activeTarget", "_activeSector", "_baseSector", "_impact", "_hunterData", "_fnc_checkForValidTargets", "_fnc_getNeareastScent"];
 params ["_fncParams"]; //pfh params
 _hunter = _fncParams select 0;
 _targets = _fncParams select 1;
 
 LOG_DEBUG(FORMAT_1("exec find for %1", _hunter));
+
+
+_fnc_getNeareastScent = {
+    {
+      _trace = (HASH_GET(IVAR(HOUNDED),_activeTarget) select 0) select _x;
+      _dist = (_trace select 1) distance getPos _hunter;
+      
+      //impact == value how strong scent in relation to distance
+      _impact = _dist - (_trace select 2) / GRAD_GUNDOG_IMPACT_SCENT;
+      if ((_impact < (_nearestScent select 4)) && (_dist < GRAD_GUNDOG_MAX_RANGE)) then {
+        _nearestScent = [_dist, _x, _activeTarget, _trace select 2, _impact, _trace select 1];
+      };
+      
+    } forEach HASH_GET((HASH_GET(IVAR(HOUNDED),_activeTarget) select 1),_activeSector); //get all idx from target sector array 
+};
 
 _fnc_checkForValidTargets = {
 
@@ -23,19 +38,11 @@ _fnc_checkForValidTargets = {
   //check nearby target in range
   {
     _activeTarget = _x;
-    {
-      _trace = (HASH_GET(IVAR(HOUNDED),_activeTarget) select 0) select _x;
-      _dist = (_trace select 1) distance getPos _hunter;
-      
-      //impact == value how strong scent in relation to distance
-      _impact = _dist - (_trace select 2) / GRAD_GUNDOG_IMPACT_SCENT;
-      if ((_impact < (_nearestScent select 4)) && (_dist < GRAD_GUNDOG_MAX_RANGE)) then {
-        _nearestScent = [_dist, _x, _activeTarget, _trace select 2, _impact, _trace select 1];
-      };
-      
-    } forEach HASH_GET((HASH_GET(IVAR(HOUNDED),_x) select 1),_activeSector); //get all idx from target sector array 
+    [] call _fnc_getNeareastScent;
   } forEach _recognizedTargets;
 };
+
+
 
 //end if dead
 if (!(alive _hunter)) exitWith {
