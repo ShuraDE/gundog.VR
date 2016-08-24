@@ -28,7 +28,7 @@ _fnc_checkForValidTargets = {
       _dist = (_trace select 1) distance getPos _hunter;
       
       //impact == value how strong scent in relation to distance
-      _impact = _dist - (_trace select 2) / 2;
+      _impact = _dist - (_trace select 2) / GRAD_GUNDOG_IMPACT_SCENT;
       if ((_impact < (_nearestScent select 4)) && (_dist < GRAD_GUNDOG_MAX_RANGE)) then {
         _nearestScent = [_dist, _x, _activeTarget, _trace select 2, _impact, _trace select 1];
       };

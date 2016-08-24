@@ -1,5 +1,13 @@
 #include "defines.hpp"
 
+/*
+  creates a new target (hounded) and/or assign the target to a hunter
+  create new hunter if !exists hunter
+  
+  it is not possible the initialize a hunter without a target...  why ? ;)
+*/
+
+
 private ["_pfhMarker", "_newTargetTraces", "_newTargetSectors", "_newTargetData", "_hunterData"];
 params ["_houndedTarget","_hunter"];
 
@@ -34,6 +42,7 @@ IVAR(SECTOR)
 globalSector  hashArray   : key = sectors             value = [] unique hounded object
 */
 
+if (_houndedTarget isEqualTo objNull) exitWith { LOG_ERROR(FORMAT_1("there is no target, abort initialize! %1", _houndedTarget)); };
 
 LOG_DEBUG(FORMAT_2("new init target is %1, hunter is %2", _houndedTarget, _hunter));
 
