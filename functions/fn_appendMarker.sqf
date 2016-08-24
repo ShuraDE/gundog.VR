@@ -27,8 +27,7 @@ _idx = _traces pushBack (_newMarker);
 
 if (!(alive _houndedTarget)) exitWith {
   //remove pfh
-  _pfh = HASH_GET(IVAR(HOUNDED), _houndedTarget) select 2;
-  [_pfh] call FNC_CBA(removePerFrameHandler);
+  [_houndedTarget getVariable [QIVAR(PFH),-1]] call FNC_CBA(removePerFrameHandler);
 };
 
 

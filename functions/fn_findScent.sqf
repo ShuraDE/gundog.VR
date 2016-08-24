@@ -37,6 +37,13 @@ _fnc_checkForValidTargets = {
   } forEach _recognizedTargets;
 };
 
+//end if dead
+if (!(alive _hunter)) exitWith {
+  //remove pfh
+  [_hunter getVariable [QIVAR(PFH),-1]] call FNC_CBA(removePerFrameHandler);
+};
+
+
 /*
  check any target is in globalSector
 */
