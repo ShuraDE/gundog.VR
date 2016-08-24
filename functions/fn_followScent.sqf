@@ -15,10 +15,9 @@ if (!(alive _hunter)) exitWith {
   _hunter setVariable [QIVAR(PFH),-1];
 };
 
-//if target ist nearby, head directly to target
-if (getPos _hunter distance getPos _target < GRAD_GUNDOG_MAX_RANGE) exitWith {
-  _hunter moveTo getPos _target;
-  // #TODO:0  hunt target signal
+//if target ist nearby, head directly to target (has 
+if ((getPos _hunter distance getPos _target) < GRAD_GUNDOG_DIRECT_CONTACT_RANGE) exitWith {
+  _hunter doFollow _target;
   _hunter setVariable [QIVAR(HUNTER_STATE), GRAD_GUNDOG_ENUM_HUNTER_STATE_SNIF];
   _hunter getVariable [QIVAR(FOLLOWING_POS), getPos _target];
   _hunter getVariable [QIVAR(FOLLOWING_IDX), -1];
@@ -26,7 +25,9 @@ if (getPos _hunter distance getPos _target < GRAD_GUNDOG_MAX_RANGE) exitWith {
 
 
 //wait until hunter is nearby last active scent
-if ((getPos _hunter distance _hunter getVariable [QIVAR(FOLLOWING_POS),[999,999,999]]) < GRAD_GUNDOG_FOLLOW_PRECISION) exitWith { };
+if ((getPos _hunter distance _hunter getVariable [QIVAR(FOLLOWING_POS),[0,0,999]]) < GRAD_GUNDOG_FOLLOW_PRECISION) exitWith {
+  LOG_DEBUG(FORMAT_2("heading to scent %1 @ %2", _hunter getVariable [QIVAR(FOLLOWING_IDX), -1], _hunter getVariable [QIVAR(FOLLOWING_POS),[0,0,999]]));
+};
 
 //append this to vistied scents
 if (_hunter getVariable [QIVAR(FOLLOWING_IDX), -1] != -1) then {
@@ -43,7 +44,7 @@ if (_hunter getVariable [QIVAR(FOLLOWING_IDX), -1] != -1) then {
 */
 
 
-//remove  nothing to do here atm
+//remove  follow script not done yet
 LOG_DEBUG(FORMAT_2("WIP followScent",_hunter,_target));
 [_hunter getVariable [QIVAR(PFH),-1]] call FNC_CBA(removePerFrameHandler);
 _hunter setVariable [QIVAR(PFH),-1];

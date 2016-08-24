@@ -6,6 +6,7 @@
 #define GRAD_GUNDOG_INITIAL_SEARCH 50
 #define GRAD_GUNDOG_INITIAL_FOLLOW 50
 #define GRAD_GUNDOG_FOLLOW_PRECISION 10
+#define GRAD_GUNDOG_DIRECT_CONTACT_RANGE 30
 #define GRAD_GUNDOG_DECREASE_SCENT 1
 #define GRAD_GUNDOG_INTERVAL_SCENT 5
 #define GRAD_GUNDOG_IMPACT_SCENT 2.5
@@ -17,23 +18,16 @@
 #define GRAD_GUNDOG_ENUM_HUNTER_STATE_SNIF 3;
 #define GRAD_GUNDOG_ENUM_HUNTER_STATE_SIGHT 4;
 
-//positive values REDUCE !! scent level
+//1 - x  = power of scent 
 #define GRAD_GUNDOG_INTENSITY_CHANGE_WATER 0.9
 #define GRAD_GUNDOG_INTENSITY_CHANGE_VEHICLE 0.8
-#define GRAD_GUNDOG_INTENSITY_CHANGE_DEAD -2
+#define GRAD_GUNDOG_INTENSITY_CHANGE_DEAD -3
 #define GRAD_GUNDOG_INTENSITY_CHANGE_BLEEDING -2
 #define GRAD_GUNDOG_INTENSITY_CHANGE_FATIGUE -1.2
-
-
-//use x digit sector
-#define GRAD_GUNDOG_SECTOR_1 TRUE
-#define GRAD_GUNDOG_SECTOR_2 TRUE
-#define GRAD_GUNDOG_SECTOR_3 TRUE
 
 //comment this line to deactivate
 #define DEBUG_MODE 1
 #define TRACE_MODE 1
-
 
 //#define LOG_BASE(module,level,message) diag_log text LOG_FORMAT(module,level,__FILE__, __LINE__,message)
 //#define LOG_BASE(module,level,message) diag_log FORMAT["%1 %2 %3 %4 %5",module,level,__FILE__, __LINE__,message]
@@ -96,9 +90,7 @@
 #define QIVAR(var1) QUOTE(IVAR(var1))
 
 #define HASH_CREATE                         ([] call FNC_CBA(hashCreate))
-// #TODO:9 HASH_NEW rework
 #define HASH_NEW(haarray, defValue)         ([haarray, defValue] call FNC_CBA(hashCreate)) //creates a new hash [[]]
-//#define HASH_NEW(haarray)                   ([haarray] call FNC_CBA(hashCreate)) //creates a new hash [[]]
 #define HASH_GET(haarray, keyValue)         ([haarray, keyValue] call FNC_CBA(hashGet)) //get value entry from key
 #define HASH_SET(haarray, keyValue, value)  ([haarray, keyValue, value] call FNC_CBA(hashSet)) //set new value with given key, replace if exists
 #define HASH_HAS_KEY(haarray, keyValue)     ([haarray, keyValue] call FNC_CBA(hashHasKey)) //check key exists, return true if exists
