@@ -32,8 +32,8 @@ huntersArray  hashArray   : key = object (hunter)    value = [] targets
 targets       array       : object (hounded)
 
 
-der gloable sector array, enthällt von allen hounded betroffene sectoren
-beim hunter find, sucht man erst 
+der gloable sector array, enthällt von allen "hounded" betretende sectoren
+der hunter sucht in fnc "find" zuerst im globalen
 * ist irgendwas im aktuellen sector wenn ja 
 * ist hunters target betroffen wenn ja
 * gehe ziele durch 
