@@ -3,6 +3,11 @@
 private ["_x","_y", "_getRasterCoord"];
 params ["_pos","_precision"];
 
+
+mapGridPosition _pos;
+
+
+/*
 _getRasterCoord = {
   private ["_raster","_sector","_i"];
   params ["_coord"];
@@ -30,3 +35,4 @@ if (isNil "_precision") exitWith {
 _ret = format["%1%2_%3%4", [str (_x select 0) , 0, _precision] call FNC_BIS(trimString) ,[str (_y select 0) , 0, _precision] call FNC_BIS(trimString), _x select 1, _y select 1];
 LOG_TRACE(FORMAT_3("request sector data for pos %1 with precision %2, return sector %3",  _pos, _precision, _ret));
 _ret;
+*/

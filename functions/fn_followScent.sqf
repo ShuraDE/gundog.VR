@@ -5,8 +5,7 @@ _hunter = _fncParams select 0;
 _target = _fncParams select 1;
 
 
-LOG_DEBUG(FORMAT_1("param in %1", _this));
-LOG_DEBUG(FORMAT_2("follow %1 as %2", _target, _hunter));
+LOG_DEBUG(FORMAT_2("follow %1 with %2", _target, _hunter));
 
 
 //end if dead
@@ -18,6 +17,8 @@ if (!(alive _hunter)) exitWith {
 
 //if target ist nearby, head directly to target (has
 if ((getPos _hunter distance getPos _target) < GRAD_GUNDOG_DIRECT_CONTACT_RANGE) exitWith {
+  LOG_DEBUG(FORMAT_2("doFollow %1 as %2", _target, _hunter));
+  [_hunter] joinSilent (group _target);
   _hunter doFollow _target;
   _hunter setVariable [QIVAR(HUNTER_STATE), GRAD_GUNDOG_ENUM_HUNTER_STATE_SNIF];
   _hunter getVariable [QIVAR(FOLLOWING_POS), getPos _target];
@@ -28,7 +29,9 @@ if ((getPos _hunter distance getPos _target) < GRAD_GUNDOG_DIRECT_CONTACT_RANGE)
 //wait until hunter is nearby last active scent
 _tmp_dist = (getPos _hunter) distance (_hunter getVariable [QIVAR(FOLLOWING_POS),[0,0,100]]);
 if (_tmp_dist < GRAD_GUNDOG_FOLLOW_PRECISION) exitWith {
-  LOG_DEBUG(FORMAT_2("heading to scent %1 @ %2", (_hunter getVariable [QIVAR(FOLLOWING_IDX), -1]), (_hunter getVariable [QIVAR(FOLLOWING_POS),-1])));
+  _tmp_1 = _hunter getVariable [QIVAR(FOLLOWING_IDX), -1];
+  _tmp_2 = _hunter getVariable [QIVAR(FOLLOWING_POS), -1];
+  LOG_DEBUG(FORMAT_2("heading to scent %1 @ %2", _tmp_1, _tmp_2));
 };
 
 //append this to vistied scents

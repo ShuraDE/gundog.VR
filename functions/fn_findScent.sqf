@@ -4,7 +4,7 @@ params ["_fncParams"]; //pfh params
 _hunter = _fncParams select 0;
 _targets = _fncParams select 1;
 
-LOG_DEBUG(FORMAT_1("exec find for %1", _hunter));
+LOG_DEBUG(FORMAT_2("exec find for %1 with targets: %2", _hunter, _targets));
 
 
 _fnc_getNeareastScent = {
@@ -29,7 +29,7 @@ _fnc_checkForValidTargets = {
 
   LOG_DEBUG(FORMAT_1("check entities target %1",_entities));
 
-  if ((count _entities) > 0) exitWith {};
+  if ((count _entities) == 0) exitWith {};
 
   //filter out all relevant targets
   {

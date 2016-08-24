@@ -8,14 +8,14 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=9;
+		nextID=11;
 	};
 	class Camera
 	{
-		pos[]={8103.0591,25.331703,4066.2412};
-		dir[]={0.51794517,-0.39949575,0.75645804};
-		up[]={0.225714,0.91671127,0.32965592};
-		aside[]={0.82516515,-6.2893378e-008,-0.56498408};
+		pos[]={8093.0371,24.456392,4074.1709};
+		dir[]={0.56608856,-0.54936844,0.61469263};
+		up[]={0.37218067,0.83554274,0.40413624};
+		aside[]={0.73563534,-4.551548e-007,-0.67746484};
 	};
 };
 binarizationWanted=0;
@@ -107,7 +107,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=4;
+		items=5;
 		class Item0
 		{
 			dataType="Group";
@@ -365,7 +365,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={8127.8574,5.0014391,4095.5286};
+						position[]={8205.0674,5.0014391,4102.125};
 					};
 					side="West";
 					flags=7;
@@ -426,8 +426,9 @@ class Mission
 			dataType="Logic";
 			class PositionInfo
 			{
-				position[]={8114.1587,5,4081.4053};
+				position[]={8114.1592,5,4081.405};
 			};
+			name="zeus";
 			id=6;
 			type="ModuleCurator_F";
 			class CustomAttributes
@@ -529,6 +530,58 @@ class Mission
 				};
 				nAttributes=5;
 			};
+		};
+		class Item4
+		{
+			dataType="Group";
+			side="West";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={8119.002,5.0014391,4096.4507};
+					};
+					side="West";
+					flags=7;
+					class Attributes
+					{
+						name="movePos";
+					};
+					id=10;
+					type="B_Pilot_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=1.05;
+								};
+							};
+						};
+						nAttributes=1;
+					};
+				};
+			};
+			class Attributes
+			{
+			};
+			id=9;
 		};
 	};
 	class Connections
