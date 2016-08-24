@@ -80,24 +80,20 @@ if (!(_hunter isEqualTo objNull)) then {
     _hunterData = HASH_GET(IVAR(HUNTERS), _hunter);
 
     //remove old pfh with old target array
-    LOG_DEBUG(FORMAT_2("remove old pfh handler ID %1 from %2", _hunter getVariable [QIVAR(PFH),_1], _hunter));
+    LOG_DEBUG(FORMAT_2("remove old pfh handler ID %1 from %2", _hunter getVariable [QIVAR(PFH),-1], _hunter));
     [_hunter getVariable [QIVAR(PFH),-1]] call FNC_CBA(removePerFrameHandler);
+    _hunter setVariable [QIVAR(PFH),-1];
     
     //add new target to targets
     _hunterData pushBackUnique _houndedTarget;
-    
-    LOG_DEBUG(FORMAT_1("hunter hash (append) is %1", HASH_GET(IVAR(HUNTERS), _hunter)));
   } else {
-     //create pfh for hunter
-    _pfhMarker = [IFNC(findScent), GRAD_GUNDOG_INITIAL_SEARCH, [_hunter, [_houndedTarget]]] call FNC_CBA(addPerFrameHandler);
-    LOG_DEBUG(FORMAT_2("append new pfh handler (search) with ID %1 for", _pfhMarker, _hunter));
-
     _hunterData = [_houndedTarget];
   };
   
   // create pfh  & set data
   _pfhMarker = [IFNC(findScent), GRAD_GUNDOG_INITIAL_SEARCH, [_hunter, _hunterData]] call FNC_CBA(addPerFrameHandler);
   _hunter setVariable [QIVAR(PFH),_pfhMarker];
+  LOG_DEBUG(FORMAT_2("append pfh handler ID %1 to hunter %2", _hunter getVariable [QIVAR(PFH),-1], _hunter));
   HASH_SET(IVAR(HUNTERS), _hunter, _hunterData);
 };
 
