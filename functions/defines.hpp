@@ -4,12 +4,16 @@
 
 #define GRAD_GUNDOG_INITIAL_SCENT 50
 #define GRAD_GUNDOG_INITIAL_SEARCH 50
+#define GRAD_GUNDOG_INITIAL_FOLLOW 50
 #define GRAD_GUNDOG_DECREASE_SCENT 1
 #define GRAD_GUNDOG_INTERVAL_SCENT 5
 #define GRAD_GUNDOG_MAX_RANGE 100
 
 #define GRAD_GUNDOG_INTENSITY_CHANGE_WATER 0.9
 #define GRAD_GUNDOG_INTENSITY_CHANGE_VEHICLE 0.8
+#define GRAD_GUNDOG_INTENSITY_CHANGE_DEAD -2
+#define GRAD_GUNDOG_INTENSITY_CHANGE_BLEEDING -2
+#define GRAD_GUNDOG_INTENSITY_CHANGE_FATIGUE -1.2
 
 
 //use x digit sector
@@ -72,6 +76,7 @@
 
 #define GAMETIME {if (isServer && hasInterface) exitWith { time } serverTime; }
 
+#define QUOTE(var1) #var1
 #define DOUBLES(var1,var2) ##var1##_##var2
 #define TRIPLES(var1,var2,var3) ##var1##_##var2##_##var3
 
@@ -79,6 +84,7 @@
 #define FNC_CBA(var1) TRIPLES(CBA,fnc,var1) //CBA Function
 #define IFNC(var1) TRIPLES(IPREFIX,fnc,var1)
 #define IVAR(var1) DOUBLES(IPREFIX,var1)
+#define QIVAR(var1) QUOTE(IVAR(var1))
 
 #define HASH_CREATE                         ([] call FNC_CBA(hashCreate))
 // #TODO:9 HASH_NEW rework

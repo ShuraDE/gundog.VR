@@ -1,75 +1,75 @@
 #include "defines.hpp"
+private ["_sector", "_entities","_recognizedTargets","_nearestScent","_activeCheck", "_activeTarget", "_activeSector", "_baseSector", "_impact", "_hunterData"];
 params ["_fncParams"]; //pfh params
 _hunter = _fncParams select 0;
+_targets = _fncParams select 1;
 
 LOG_DEBUG(FORMAT_1("exec find for %1", _hunter));
-/*
-private ["_searchFromPos","_checkSector","_activeSector","_shortestIdx","_nearest","_dist"];
-params ["_maxRange"];
 
-_checkSector = {
-  params ["_precision", "_hash"];
+_fnc_checkForValidTargets = {
 
-  _sector = [_searchFromPos, _precision] call IFNC(getSector);
-  //check entry exists
-  if (HASH_HAS_KEY(_hash,_sector)) then {
-    _activeSector = HASH_GET(_hash,_sector);
-  } else {
-    false;
-  };
+  _recognizedTargets = [];
+  _entities = GET_HASH(IVAR(SECTOR),_activeSector);
 
-};
+  if (count _entities > 0) exitWith {};
 
-_searchFromPos = getPos GRAD_GUNDOG_CHASER;
-_activeSector = objNull;
-_nearest = 999999;
-_nearestIdx = -1;
-
-//set maxRange to default if not set
-if (isNil "_maxRange") then {_maxRange = GRAD_GUNDOG_MAX_RANGE };
-
-//aktuell keine aktive spur
-if (!GRAD_GUNDOG_HAVE_SCENT) then {
-
-
-  // #TODO:0 gefällt mir nicht
-  if (GRAD_GUNDOG_SECTOR_1 && !isNil "GRAD_GUNDOG_HUNTING_GROUND_1") then {
-    [1,GRAD_GUNDOG_HUNTING_GROUND_1] call _checkSector;
-    //if (([1,GRAD_GUNDOG_HUNTING_GROUND_1] call _checkSector)==false) exitWith { false; };
-  };
-  if (GRAD_GUNDOG_SECTOR_2 && !isNil "GRAD_GUNDOG_HUNTING_GROUND_2") then {
-    [2,GRAD_GUNDOG_HUNTING_GROUND_2] call _checkSector;
-    //if (([2,GRAD_GUNDOG_HUNTING_GROUND_2] call _checkSector)==false) exitWith { false; };
-  };
-  if (GRAD_GUNDOG_SECTOR_3 && !isNil "GRAD_GUNDOG_HUNTING_GROUND_3") then {
-    [3,GRAD_GUNDOG_HUNTING_GROUND_3] call _checkSector;
-    //if (([3,GRAD_GUNDOG_HUNTING_GROUND_3] call _checkSector)==false) exitWith { false; };
-  };
-
-  if (_activeSector isEqualTo objNull ) exitWith {
-    LOG_DEBUG(FORMAT_1("failed activeSector %1", _activeSector));
-
-    // #TODO:0 look in neighbor sector if max distance is possible
-
-    false;
-  };
-
+  //filter out all relevant targets
   {
-    LOG_DEBUG(FORMAT_1("check %1",_x));
-
-    _dist = _searchFromPos distance ((GRAD_GUNDOG_TRACK select _x) select 1);
-    LOG_DEBUG(FORMAT_1("dist %1",_dist));
-
-    if ((_dist < _maxRange) && (_dist < _nearest)) then {
-      _nearest = _dist;
-      _nearestIdx = _x;
+    if (_x in _entities) then {
+      _recognizedTargets pushBack _x;
     };
+  } forEach _targets;
 
-  } forEach _activeSector; //get all index from select sector
-
-  LOG_DEBUG(FORMAT_2("found trace distance %1 @ %2",_nearest, _nearestIdx));
-} else {
-  // #TODO:1 handler
-  LOG_DEBUG("Spur bereits gefunden und soll Fährte folgen");
+  //check nearby target in range
+  {
+    _activeTarget = _x;
+    {
+      _trace = (HASH_GET(IVAR(HOUNDED),_activeTarget) select 0) select _x;
+      _dist = (_trace select 1) distance getPos _hunter;
+      
+      //impact == value how strong scent in relation to distance
+      _impact = _dist - (_trace select 2) / 2;
+      if ((_impact < (_nearestScent select 4)) && (_dist < GRAD_GUNDOG_MAX_RANGE)) then {
+        _nearestScent = [_dist, _x, _activeTarget, _trace select 2, _impact, _trace select 1];
+      };
+      
+    } forEach HASH_GET((HASH_GET(IVAR(HOUNDED),_x) select 1),_activeSector); //get all idx from target sector array 
+  } forEach _recognizedTargets;
 };
+
+/*
+ check any target is in globalSector
 */
+
+//distance, idx, target, power, factor, pos
+_nearestScent = [9999, -1, objNull, 0, 9999];
+_searchPos = getPos _hunter;
+_baseSector = [_searchPos] call IFNC(getSector);
+_activeSector = _baseSector;
+
+[] call _fnc_checkForValidTargets;
+
+//check nearby sectors if in range, BEWARE if max range > sector size !!!!!!!
+{
+  _activeSector = [_searchPos vectorAdd [_x select 0 * GRAD_GUNDOG_MAX_RANGE, _x select 1 * GRAD_GUNDOG_MAX_RANGE,0]] call IFNC(getSector);
+  if (!(_activeSector isEqualTo _baseSector)) then {
+    [] call _fnc_checkForValidTargets;
+  };
+} forEach [[-1,1],[1,1],[-1,-1],[1,-1]];
+
+if (count _nearestScent == 0) exitWith { }; //nothing nearby
+
+//valid scent found
+// #TODO:0 add signal "scent found"
+
+//move to, change pfh from find to follow
+_hunter moveTo (_nearestScent select 5);
+_hunter setVariable [QIVAR(FOLLOWING_NODE),_nearestScent select 5];
+
+//replace pfh for follow trace
+[_hunter getVariable [QIVAR(PFH),-1]] call FNC_CBA(removePerFrameHandler);
+_pfhMarker = [IFNC(followScent), GRAD_GUNDOG_INITIAL_FOLLOW, [_hunter, _nearestScent select 2]] call FNC_CBA(addPerFrameHandler);
+_hunter setVariable [QIVAR(PFH),_pfhMarker];
+
+
+//bye

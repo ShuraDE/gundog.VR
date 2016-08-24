@@ -1,10 +1,11 @@
 #include "defines.hpp"
 
-private ["_idx", "_newMarker","_debug","_pos", "_houndedTarget", "_traces", "_sectors"];
+private ["_idx", "_newMarker","_debug","_pos", "_pfh"];
 params ["_fncParams"];
 _houndedTarget = _fncParams select 0;
 _traces = _fncParams select 1;
 _sectors = _fncParams select 2;
+
 
 //generate new marker
 _newMarker = [_houndedTarget] call IFNC(newScent);
@@ -20,7 +21,15 @@ LOG_TRACE(FORMAT_2("new marker %1 @ grid %2", _newMarker, mapGridPosition (_newM
 //append new marker to route
 _idx = _traces pushBack (_newMarker);
 //append reference to sector
-[_idx, _newMarker select 1, _sectors] call IFNC(applySector);
+[_idx, _sectors, _houndedTarget] call IFNC(applySector);
+
+
+
+if (!(alive _houndedTarget)) exitWith {
+  //remove pfh
+  _pfh = HASH_GET(IVAR(HOUNDED), _houndedTarget) select 2;
+  [_pfh] call FNC_CBA(removePerFrameHandler);
+};
 
 
 
