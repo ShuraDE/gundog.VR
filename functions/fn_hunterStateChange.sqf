@@ -9,4 +9,5 @@ params ["_hunter"];
 #define GRAD_GUNDOG_ENUM_HUNTER_STATE_SIGHT 4;
 */
 
-LOG_DEBUG(FORMAT_2("Hunter %1 has changed state to %2", _hunter, _hunter getVariable[QIVAR(HUNTER_STATE),GRAD_GUNDOG_ENUM_HUNTER_STATE_NONE]));
+LOG_DEBUG(FORMAT_1("whats up here ? %1", _hunter));
+//LOG_DEBUG(FORMAT_2("Hunter %1 has changed state to %2", _hunter, (_hunter getVariable[QIVAR(HUNTER_STATE),GRAD_GUNDOG_ENUM_HUNTER_STATE_NONE])));

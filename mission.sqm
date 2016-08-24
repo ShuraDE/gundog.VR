@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=7;
+		nextID=9;
 	};
 	class Camera
 	{
@@ -114,7 +114,7 @@ class Mission
 			side="West";
 			class Entities
 			{
-				items=1;
+				items=2;
 				class Item0
 				{
 					dataType="Object";
@@ -284,6 +284,45 @@ class Mission
 					};
 					id=1;
 					type="B_engineer_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=1.01;
+								};
+							};
+						};
+						nAttributes=1;
+					};
+				};
+				class Item1
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={8116.2559,5.0014391,4086.6641};
+					};
+					side="West";
+					flags=5;
+					class Attributes
+					{
+						name="t2";
+					};
+					id=8;
+					type="B_Soldier_VR_F";
 					class CustomAttributes
 					{
 						class Attribute0
