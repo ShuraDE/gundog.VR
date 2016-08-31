@@ -42,7 +42,7 @@ IVAR(SECTOR)
 globalSector  hashArray   : key = sectors             value = [] unique hounded object
 */
 
-if (_houndedTarget isEqualTo objNull) exitWith { LOG_ERR(FORMAT_1("there is no target, abort initialize! %1", _houndedTarget)) };
+if (_houndedTarget isEqualTo objNull) exitWith { LOG_ERR(FORMAT_1("there is no target, abort initialize! %1", _houndedTarget)); };
 
 LOG_DEBUG(FORMAT_2("new init target is %1, hunter is %2", _houndedTarget, _hunter));
 
@@ -79,27 +79,27 @@ if (!(_hunter isEqualTo objNull)) then {
     //get active data and clear
     _hunterData = HASH_GET(IVAR(HUNTERS), _hunter);
 
-    //remove old pfh with old target array if he is in state none or search (if not stay with old pfh)
-    _tmp = _hunter getVariable[QIVAR(HUNTER_STATE), 0];
-    if ( _tmp isEqualTo GRAD_GUNDOG_ENUM_HUNTER_STATE_NONE || _tmp isEqualTo GRAD_GUNDOG_ENUM_HUNTER_STATE_SEARCH) then {
-      _tmp = _hunter getVariable [QIVAR(PFH),-1];
-      LOG_DEBUG(FORMAT_2("remove old pfh handler ID %1 from %2", _tmp, _hunter));
-      [_hunter getVariable [QIVAR(PFH),-1]] call FNC_CBA(removePerFrameHandler);
-      _hunter setVariable [QIVAR(PFH),-1];
-    };
+    //remove old pfh with old target array
+    _tmp = _hunter getVariable [QIVAR(PFH),-1];
+    LOG_DEBUG(FORMAT_2("remove old pfh handler ID %1 from %2", _tmp, _hunter));
+    [_hunter getVariable [QIVAR(PFH),-1]] call FNC_CBA(removePerFrameHandler);
+    _hunter setVariable [QIVAR(PFH),-1];
 
     //add new target to targets
     _hunterData pushBackUnique _houndedTarget;
   } else {  //new hunter
     _hunterData = [_houndedTarget];
-    QIVAR(HUNTER_STATE) addPublicVariableEventHandler [_hunter, {[_hunter] call IFNC(hunterStateChange)}];
+    //sinnlos ^^
+    //QIVAR(HUNTER_STATE) addPublicVariableEventHandler [_hunter, {[_hunter] call IFNC(hunterStateChange)}];
   };
 
   // create pfh  & set data
   _pfhMarker = [IFNC(findScent), GRAD_GUNDOG_INITIAL_SEARCH, [_hunter, _hunterData]] call FNC_CBA(addPerFrameHandler);
-  _hunter setVariable [QIVAR(PFH), _pfhMarker];
-
+  _hunter setVariable [QIVAR(PFH),_pfhMarker];
   _tmp = _hunter getVariable [QIVAR(PFH),-1];
   LOG_DEBUG(FORMAT_2("append pfh handler ID %1 to hunter %2", _tmp, _hunter));
   HASH_SET(IVAR(HUNTERS), _hunter, _hunterData);
+
+  //set hunter state
+  [_hunter, GRAD_GUNDOG_ENUM_HUNTER_STATE_SEARCH] call IFNC(hunterStateChange)
 };

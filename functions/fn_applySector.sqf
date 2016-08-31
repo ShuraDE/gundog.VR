@@ -4,7 +4,7 @@ params ["_idx", "_sectors", "_houndedTarget"];
 
 _sector = [getPos _houndedTarget, 2] call IFNC(getSector);
 
-LOG_TRACE(FORMAT_2("Append %1 to sector(1) %2", _idx, _sector));
+LOG_DEBUG(FORMAT_2("Append %1 to sector(1) %2", _idx, _sector));
 
 //append sector to target's sector hashArray
 if (HASH_HAS_KEY(_sectors,_sector)) then {

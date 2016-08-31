@@ -36,6 +36,10 @@
         file = "functions\fn_fadeScent.sqf";
         description = "gundog";
       };
+      class checkHunter {
+        file = "functions\fn_checkHunter.sqf";
+        description = "gundog";
+      };            
       class hunterStateChange {
         file = "functions\fn_hunterStateChange.sqf";
         description = "gundog";
