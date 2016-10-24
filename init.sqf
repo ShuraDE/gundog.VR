@@ -7,3 +7,5 @@ IVAR(SECTOR) = HASH_CREATE;
 
 //test
 [player, hunter] call IFNC(init);
+
+//test
